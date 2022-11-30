@@ -2,7 +2,7 @@ public class Simulator {
     private int balance;
     private double multiplier;
     private String [] inventory = {};
-    private String [] animals = {"dog", "cat", "goldfish", "whale", "unicorn", "dragon", "fly", "cockroach"};
+    private String [] animals = {"puppy", "giraffe", "kitten", "whale", "dragonfly", "elephant"};
 
     public Simulator (int balance) {
         this.balance = balance;
@@ -12,50 +12,57 @@ public class Simulator {
         this.multiplier = multiplier;
     }
 
-    public String roll (int times) {
-        for (int i = 1; i <= times; i ++) {
+    public String rollAnimal (int times) {
+        for (int i = 1; i <= times; i++) {
             String item = "";
-            String name = animals[(int) (Math.random () * animals.length + 1)];
-            int rarityI = (int) (Math.random () * 1001);
-            String rarityS = "";
+            String name = animals[(int) (Math.random() * animals.length + 1)];
+        }
+        return "a";
+    }
 
-            if (rarityI <= 6) {rarityI = 1;}
-            else if (rarityI <= 56) {rarityI = 2;}
-            else if (rarityI <= 156) {rarityI = 3;}
-            else if (rarityI <= 306) {rarityI = 4;}
-            else if (rarityI <= 706) {rarityI = 5;}
-            else {rarityI = 6;}
+    public String rollRarity (String animal) {
+        int rarityI = (int) (Math.random() * 1001);
+        String rarityS = "";
 
-            if (rarityI == 1) {rarityS = "Legendary";}
-            if (rarityI == 2) {rarityS = "Mythic";}
-            if (rarityI == 3) {rarityS = "Epic";}
-            if (rarityI == 4) {rarityS = "Rare";}
-            if (rarityI == 5) {rarityS = "Common";}
-            if (rarityI == 6) {rarityS = "Nothing";}
+        if (rarityI <= 6) {rarityI = 1;
+        } else if (rarityI <= 56) {rarityI = 2;
+        } else if (rarityI <= 156) {rarityI = 3;
+        } else if (rarityI <= 306) {rarityI = 4;
+        } else if (rarityI <= 706) {rarityI = 5;
+        } else {rarityI = 6;}
 
-            for (int i = 0; i < inventory.length; i ++) {
-                if (inventory [i].equals(name)) {
-                    return (name + "(" + rarityS + ")" + " [1]");
-                }
-                else if (inventory[i].indexOf(name) != -1) {
-                    return (name + "(" + rarityS + ")" + " [" + detectDup(inventory[i]) + 1 + "]");
-                }
-                else {
-                    return (name + "(" + rarityS + ")");
-                }
+        if (rarityI == 1) {rarityS = "Legendary";}
+        if (rarityI == 2) {rarityS = "Mythic";}
+        if (rarityI == 3) {rarityS = "Epic";}
+        if (rarityI == 4) {rarityS = "Rare";}
+        if (rarityI == 5) {rarityS = "Common";}
+        if (rarityI == 6) {rarityS = "Nothing";}
+
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].equals(animal)) {
+                return (animal + "(" + rarityS + ")" + " [1]");
+            } else if (inventory[i].indexOf(animal) != -1) {
+                return (animal + "(" + rarityS + ")" + " [" + numOfDup(inventory[i]) + 1 + "]");
+            } else {
+                return (animal + "(" + rarityS + ")");
             }
         }
+        return "a";
     }
 
     public void nextDay () {
-        System.out.println ("Your savings were $" + balance);
-        balance -= 10;
-        System.out.println ("A day has past, and you're now at $" + balance);
+        System.out.println ("A day has passed by.");
+        System.out.println ("Your past balance was: " + balance);
+        balance += 200;
+        System.out.println ("Your balance now is: " + balance);
     }
 
-    public int detectDup (String name) {
-        return (Integer.parseInt(name.substring(name.indexOf("[") + 1, name.indexOf("]"))));
+    public int numOfDup (String name) {
+        if (name.indexOf("[") != -1) {
+            return (Integer.parseInt(name.substring(name.indexOf("[") + 1, name.indexOf("]"))));
+        }
+        else {
+            return 0;
+        }
     }
-
-    public void 
 }
