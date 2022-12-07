@@ -3,6 +3,7 @@ public class Calc {
     private boolean roundToInt = false;
     private String equationS;
     private String equation = "(1+2-3)*4/5";
+    private String localEquation;
     public Calc () {
     }
 
@@ -15,53 +16,28 @@ public class Calc {
         this.roundToInt = roundToInt;
     }
 
-    public void simplifyParenthesis () {
-        while (equation.contains("(") && equation.contains(")")) {
-            String equa = equation.substring(equation.indexOf ("(") + 1, equation.indexOf(")"));
-            while(equa.contains("(") && equa.contains(")")) {
-                equa = equa.substring(equa.indexOf("(") + 1, equa.indexOf (")"));
-            }
-            while(!equa.contains("+") && !(equa.contains("-") && isNumeric(equa.substring(equa.indexOf("-") + 1))) && !equa.contains("*") && !equa.contains("/")) {
-                if (equa.contains("/")) {
-                    equation = equation.replace("(" + equa + ")",equationWithIn(equa, "/") + "");
-                }
-                if (equa.contains("*")) {
-                    equation = equation.replace("(" + equa + ")",equationWithIn(equa, "*") + "");
-                }
-                if (equa.contains("-") && !hasNegative(equa)) {
-                    equation = equation.replace("(" + equa + ")",equationWithIn(equa, "-") + "");
-                }
-                if (equa.contains("+")) {
-                    equation = equation.replace("(" + equa + ")",equationWithIn(equa, "+") + "");
-                }
-            }
-        }
-        equationS = equation;
-    }
-
     public double equationWithIn (String equation, String sign) {
         boolean equationFinished = false;
         String left = "";
         String right = "";
-        for (int i = 1; equationFinished == false && equation.indexOf(sign) - i > -1; i ++) {
-            String L = equation.substring (equation.indexOf(sign) - i,equation.indexOf(sign) - i + 1);
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) - i > -1; i++) {
+            String L = equation.substring(equation.indexOf(sign) - i, equation.indexOf(sign) - i + 1);
             if (isNumeric(L)) {
                 left = L + left;
-            }
-            else {
+            } else {
                 equationFinished = true;
             }
         }
         equationFinished = false;
-        for (int i = 1; equationFinished == false && equation.indexOf(sign) + i < equation.length(); i ++) {
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) + i < equation.length(); i++) {
             String R = equation.substring(equation.indexOf(sign) + i, equation.indexOf(sign) + i + 1);
             if (isNumeric(R)) {
                 right = right + R;
-            }
-            else {
+            } else {
                 equationFinished = true;
             }
         }
+        localEquation = left + sign + right;
         return equationSolver(toDouble(left), toDouble(right), sign);
     }
 
@@ -107,20 +83,23 @@ public class Calc {
     }
 
     public double calculateFinal () {
-        while(!equation.contains("+") && !(equation.contains("-") && isNumeric(equation.substring(equation.indexOf("-") + 1))) && !equation.contains("*") && !equation.contains("/")) {
-            if (equation.contains("/")) {
-                answer += equationWithIn(equation, "/");
-            }
-            if (equation.contains("*")) {
-                answer += equationWithIn(equation, "*");
-            }
-            if (equation.contains("-") && !hasNegative(equation)) {
-                answer += equationWithIn(equation, "-");
-            }
-            if (equation.contains("+")) {
-                answer += equationWithIn(equation, "+");
-            }
+        while (equation.contains ("/")) {
+            equationWithIn(equation, "/");
+            equation = equation.replace(localEquation, equationWithIn(equation, "/") + "");
         }
+        while (equation.contains ("*")) {
+            equationWithIn(equation, "*");
+            equation = equation.replace(localEquation, equationWithIn(equation, "*") + "");
+        }
+        while (equation.contains ("-")) {
+            equationWithIn(equation, "-");
+            equation = equation.replace(localEquation, equationWithIn(equation, "-") + "");
+        }
+        while (equation.contains ("+")) {
+            equationWithIn(equation, "+");
+            equation = equation.replace(localEquation, equationWithIn(equation, "+") + "");
+        }
+        answer = toDouble(equation);
         if (roundToInt) {
             answer = Math.round(answer);
         }
@@ -128,7 +107,7 @@ public class Calc {
     }
 
     public String toString() {
-        String toString = equationS + "\n" + answer;
+        String toString = equation + "=" + answer;
         return toString;
     }
 

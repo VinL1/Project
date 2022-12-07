@@ -27,7 +27,6 @@ public class Main {
         Calc choco = new Calc(equation, roundYN);
         System.out.println ("Alright!");
         System.out.println ("The answer to your equation is: " + choco.calculateFinal());
-        System.out.println ("Your original equation is: " + equation + "\nYour equation without parenthesis is:" + choco);
         System.out.print ("Have a great day!");
     }
 }
