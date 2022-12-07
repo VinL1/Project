@@ -1,8 +1,9 @@
 import java.util.Scanner;
 public class Main {
     public static void main (String [] args) {
-        String equation = "";
-        String round = "";
+        String equation;
+        String round;
+        boolean roundYN = false;
         Scanner input = new Scanner (System.in);
 
         System.out.println ("Hello!\nWelcome to the simple arithmetic calculator.");
@@ -16,15 +17,19 @@ public class Main {
         System.out.println ("Got it!");
         System.out.println ("Would you like for me to round your answer to the nearest integer? (y/n)");
         round = input.nextLine();
-        while (!round.equals ("y") || !round.equals ("n")) {
+        while (!round.equals ("y") && !round.equals ("n")) {
             System.out.println ("Please decide if you want to round the answer to the nearest integer! (y/n)");
             round = input.nextLine();
         }
         if (round.equals ("y")) {
-            Calc calculator = new Calc (true);
+            roundYN = true;
         }
-        else {
-            Calc calculator = new Calc (false);
-        }
+        Calc choco = new Calc(equation, roundYN);
+        System.out.println ("Alright!");
+        System.out.println (choco);
+        choco.simplifyParenthesis();
+        System.out.println ("The answer to your equation is: " + choco.calculateFinal());
+        System.out.println ("Your original equation is: " + equation + "\nYour equation without parenthesis is:" + choco);
+        System.out.print ("Have a great day!");
     }
 }

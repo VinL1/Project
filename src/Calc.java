@@ -1,17 +1,26 @@
 public class Calc {
-    private double answer = 0;
-    private boolean roundToInt;
+    private double answer = 2;
+    private boolean roundToInt = false;
     private String equationS;
+    private String equation = "(1+2-3)*4/5";
     public Calc () {
     }
 
-    public Calc (boolean roundToInt) {
+    public Calc (String equation) {
+        this.equation = equation;
+    }
+
+    public Calc (String equation, boolean roundToInt) {
+        this.equation = equation;
         this.roundToInt = roundToInt;
     }
 
-    public void simplifyParenthesis (String equation) {
+    public void simplifyParenthesis () {
         while (equation.contains("(") && equation.contains(")")) {
             String equa = equation.substring(equation.indexOf ("(") + 1, equation.indexOf(")"));
+            while(equa.contains("(") && equa.contains(")")) {
+                equa = equa.substring(equa.indexOf("(") + 1, equa.indexOf (")"));
+            }
             while(!equa.contains("+") && !(equa.contains("-") && isNumeric(equa.substring(equa.indexOf("-") + 1))) && !equa.contains("*") && !equa.contains("/")) {
                 if (equa.contains("/")) {
                     equation = equation.replace("(" + equa + ")",equationWithIn(equa, "/") + "");
@@ -34,18 +43,20 @@ public class Calc {
         boolean equationFinished = false;
         String left = "";
         String right = "";
-        for (int i = 1; equationFinished == false; i ++) {
-            String L = equation.substring (equation.indexOf(sign) - i);
-            if (hasNegative(equation.substring(equation.indexOf(L) - 2))) {
-                L = "-" + L;
-            }
-            String R = equation.substring(equation.indexOf(sign) + i);
-            if (hasNegative(equation.substring(equation.indexOf(R) - 2))) {
-                R = "-" + R;
-            }
-            if (isNumeric(L) && isNumeric(R)) {
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) - i > 0; i ++) {
+            String L = equation.substring (equation.indexOf(sign) - i,equation.indexOf(sign) - i + 1);
+            if (isNumeric(L)) {
                 left = L + left;
-                right += R;
+            }
+            else {
+                equationFinished = true;
+            }
+        }
+        equationFinished = false;
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) + i < equation.length() - 1; i ++) {
+            String R = equation.substring(equation.indexOf(sign) + i, equation.indexOf(sign) + i + 1);
+            if (isNumeric(R)) {
+                right = right + R;
             }
             else {
                 equationFinished = true;
@@ -95,7 +106,7 @@ public class Calc {
         return has;
     }
 
-    public double calculateFinal (String equation) {
+    public double calculateFinal () {
         while(!equation.contains("+") && !(equation.contains("-") && isNumeric(equation.substring(equation.indexOf("-") + 1))) && !equation.contains("*") && !equation.contains("/")) {
             if (equation.contains("/")) {
                 answer += equationWithIn(equation, "/");
@@ -110,11 +121,14 @@ public class Calc {
                 answer += equationWithIn(equation, "+");
             }
         }
+        if (roundToInt) {
+            answer = Math.round(answer);
+        }
         return answer;
     }
 
     public String toString() {
-        String toString = "The simplified equation would be: " + equationS;
+        String toString = equationS + "\n" + answer;
         return toString;
     }
 
