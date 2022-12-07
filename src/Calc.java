@@ -43,7 +43,7 @@ public class Calc {
         boolean equationFinished = false;
         String left = "";
         String right = "";
-        for (int i = 1; equationFinished == false && equation.indexOf(sign) - i > 0; i ++) {
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) - i > -1; i ++) {
             String L = equation.substring (equation.indexOf(sign) - i,equation.indexOf(sign) - i + 1);
             if (isNumeric(L)) {
                 left = L + left;
@@ -53,7 +53,7 @@ public class Calc {
             }
         }
         equationFinished = false;
-        for (int i = 1; equationFinished == false && equation.indexOf(sign) + i < equation.length() - 1; i ++) {
+        for (int i = 1; equationFinished == false && equation.indexOf(sign) + i < equation.length(); i ++) {
             String R = equation.substring(equation.indexOf(sign) + i, equation.indexOf(sign) + i + 1);
             if (isNumeric(R)) {
                 right = right + R;
