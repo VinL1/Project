@@ -6,11 +6,11 @@ public class Main {
         boolean roundYN = false;
         Scanner input = new Scanner (System.in);
 
-        System.out.println ("Hello!\nWelcome to the simple arithmetic calculator.");
-        System.out.println ("Please type in your equation: ");
+        System.out.println ("---------------Hello!---------------\n--Welcome to the simple arithmetic calculator.--");
+        System.out.println ("Please type in your equation (using only +, -, *, /): ");
         equation = input.nextLine();
         while (!Calc.validEquation(equation)) {
-            System.out.println ("\\*\\*Please type in a valid equation!/*/");
+            System.out.println ("\\*\\*Please type in a valid equation!*/*/");
             System.out.println ("Please type in your equation: ");
             equation = input.nextLine();
         }
@@ -24,9 +24,9 @@ public class Main {
         if (round.equals ("y")) {
             roundYN = true;
         }
-        Calc choco = new Calc(equation, roundYN);
+        Calc calculator = new Calc(equation, roundYN);
         System.out.println ("Alright!");
-        System.out.println ("The answer to your equation is: " + choco.calculateFinal());
-        System.out.print ("Have a great day!");
+        System.out.println (calculator);
+        System.out.print ("-----------Have a great day!----------");
     }
 }
