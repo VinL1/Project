@@ -26,6 +26,7 @@ public class Main {
         }
         Calc calculator = new Calc(equation, roundYN);
         System.out.println ("Alright!");
+        calculator.calculateFinal();
         System.out.println (calculator);
         System.out.print ("-----------Have a great day!----------");
     }

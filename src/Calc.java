@@ -180,7 +180,6 @@ public class Calc {
         if (negative) {
             answer = answer * -1;
         }
-        this.answer = answer;
     }
 
     /**
